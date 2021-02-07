@@ -48,7 +48,10 @@ class User extends VuexModule implements IUserState {
   public async Login(userInfo: { username: string, password: string }) {
     let { username, password } = userInfo
     username = username.trim()
-    const { data } = await login({ username, password })
+    let fd:FormData=new FormData();
+    fd.append('username',username);
+    fd.append('password',password);
+    const { data } = await login(fd)
     setToken(data.accessToken)
     this.SET_TOKEN(data.accessToken)
   }
@@ -69,7 +72,7 @@ class User extends VuexModule implements IUserState {
     if (!data) {
       throw Error('Verification failed, please Login again.')
     }
-    const { roles, name, avatar, introduction } = data.user
+    const { roles, name, avatar, introduction } = data
     // roles must be a non-empty array
     if (!roles || roles.length <= 0) {
       throw Error('GetUserInfo: roles must be a non-null array!')

@@ -12,7 +12,8 @@ service.interceptors.request.use(
   (config) => {
     // Add X-Access-Token header to every request, you can add other custom headers here
     if (UserModule.token) {
-      config.headers['X-Access-Token'] = UserModule.token
+      config.headers['Authorization'] = UserModule.token
+      config.headers['userId'] = 1
     }
     return config
   },
@@ -33,6 +34,7 @@ service.interceptors.response.use(
     // code == 50005: username or password is incorrect
     // You can change this part for your own usage.
     const res = response.data
+    console.log("````````````````````````````",res)
     if (false && res.code !== 20000) {
       Message({
         message: res.message || 'Error',
