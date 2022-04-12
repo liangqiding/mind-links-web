@@ -1,9 +1,7 @@
 <template>
   <div class="app-container">
-    <template>
-      <dv-border-box-11 title="系统监控" :style="'width: auto;height:' +windowHeight+'px'">
-      </dv-border-box-11>
-    </template>
+    <div id="main" style="width: 500px;height: 500px">
+    </div>
   </div>
 </template>
 
@@ -11,28 +9,73 @@
 export default {
   data() {
     return {
-      windowHeight: document.documentElement.clientHeight * 0.9
+      option: {
+        series: [
+          {
+            type: 'gauge',
+            progress: {
+              show: true,
+              width: 18
+            },
+            axisLine: {
+              lineStyle: {
+                width: 18
+              }
+            },
+            axisTick: {
+              show: false
+            },
+            splitLine: {
+              length: 15,
+              lineStyle: {
+                width: 2,
+                color: '#999'
+              }
+            },
+            axisLabel: {
+              distance: 25,
+              color: '#999',
+              fontSize: 20
+            },
+            anchor: {
+              show: true,
+              showAbove: true,
+              size: 25,
+              itemStyle: {
+                borderWidth: 10
+              }
+            },
+            title: {
+              show: false
+            },
+            detail: {
+              valueAnimation: true,
+              fontSize: 80,
+              offsetCenter: [0, '70%']
+            },
+            data: [
+              {
+                value: 70
+              }
+            ]
+          }
+        ]
+      }
     }
   },
   created() {
   },
-  watch:{
-    windowHeight (val) {
-      let that = this;
-      console.log("实时屏幕高度：",val, that.windowHeight );
-    },
-  },
+  watch: {},
   mounted() {
-    const _this = this
-    window.onresize = () => {
-      return (() => {
-        console.log("==============")
-        window.fullHeight = document.documentElement.clientHeight
-        _this.windowHeight = window.fullHeight* 0.9
-      })()
-    }
+    this.init()
   },
-  methods: {}
+  methods: {
+    init() {
+      const myChart = this.$echarts.init(document.getElementById('main'));
+// 绘制图表
+      myChart.setOption(this.option);
+    }
+  }
 }
 </script>
 <style lang="scss">

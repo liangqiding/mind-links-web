@@ -70,13 +70,28 @@
           :total="400">
       </el-pagination>
     </div>
+    <el-dialog
+        title="提示"
+        :z-index="1000"
+        :visible.sync="dialogVisible"
+        width="30%"
+    >
+      <span>这是一段信息</span>
+      <el-button @click="test">测试通知</el-button>
+      <span slot="footer" class="dialog-footer">
+    <el-button @click="dialogVisible = false">取 消</el-button>
+    <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+  </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import messageUtils from "../../utils/messageUtils"
 export default {
   data() {
     return {
+      dialogVisible: true,
       tableData: [{
         date: '2016-05-02',
         name: '王小虎',
@@ -110,6 +125,9 @@ export default {
   }
   ,
   methods: {
+    test(){
+      messageUtils.message("操作成功")
+    },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
     },
